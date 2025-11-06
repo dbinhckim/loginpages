@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng Nhập</title>
+
+    <!-- ĐÃ SỬA: Thay thế link CSS ngoài bằng thẻ <style> -->
+    <style>
+        /* Tên file: static/style.css */
+        
+        /* Nhúng font chữ từ Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --navbar-bg: #1c2b4a; /* Màu xanh tối cho navbar */
+            --text-color: #c9d1d9;
+            --heading-color: #e6edf3;
+            --input-bg: transparent;
+            --input-border: #30363d;
+            --primary-gradient: linear-gradient(90deg, #6A11CB, #2575FC);
+            --primary-hover: linear-gradient(90deg, #5e0faA, #1e66e3);
+            --secondary-button-bg: #21262d;
+            --secondary-button-hover: #30363d;
+            --link-color: #58a6ff;
+            --link-hover: #79c0ff;
+            --border-radius: 8px;
+            --spacing-unit: 1rem;
+            --color-weak: #dc3545;
+            --color-medium: #ffc107;
+            --color-strong: #28a745;
+            --color-very-strong: #2575FC;
+            --navbar-height: 70px; /* Chiều cao navbar */
+        }
+
+        /* ----- LAYOUT CHÍNH ----- */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            color: var(--text-color);
+            padding-top: var(--navbar-height); /* Thêm padding top bằng chiều cao navbar */
+            line-height: 1.6;
+        }
+
+        .main-container {
+            display: flex;
+            justify-content: center; /* Căn giữa form */
+            align-items: center; /* Căn giữa form */
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem var(--spacing-unit);
+            box-sizing: border-box;
+            margin: 0 auto;
+            min-height: calc(100vh - var(--navbar-height));
+        }
+        /* ---------------------------------- */
+
+
+        /* ----- CSS CHO NAVBAR ----- */
+        .navbar {
+            width: 100%;
+            background-color: var(--navbar-bg);
+            padding: 0 2rem;
+            box-sizing: border-box;
+            height: var(--navbar-height);
+            border-bottom: 1px solid var(--input-border);
+            position: fixed; /* Cố định navbar */
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .navbar-container {
+            height: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--heading-color);
+            text-decoration: none;
+            margin-right: 2rem;
+        }
+
+        /* FIX: Đảm bảo Navbar Links luôn là Flex container trên Desktop */
+        .navbar-links {
+            display: block; /* Mặc định là block để chứa ul */
+        }
+        .navbar-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex; /* Đảm bảo các li item nằm ngang */
+            gap: 1.5rem;
+        }
+        /* FIX: Đảm bảo li là item inline/flex */
+        .navbar-links ul li {
+            display: inline-block; /* Hoặc display: flex */
+        }
+
+        .navbar-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+        .navbar-links a i {
+            margin-right: 0.5rem;
+        }
+
+        .navbar-links a:hover {
+            color: var(--link-hover);
+        }
+
+        .navbar-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: auto; /* Đẩy nút sang phải */
+        }
+
+        .nav-button {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+        .nav-button i {
+            margin-right: 0.5rem;
+        }
+
+        .nav-button.btn-secondary {
+            background-color: var(--secondary-button-bg);
+            color: var(--text-color);
+        }
+        .nav-button.btn-secondary:hover {
+            background-color: var(--secondary-button-hover);
+        }
+
+        .nav-button.btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+        }
+        .nav-button.btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .nav-auth-links {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: 1rem;
+            font-size: 0.95rem;
+        }
+        .nav-auth-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .nav-auth-links a:hover {
+            color: var(--link-hover);
+        }
+        .nav-auth-links a.active { /* Đánh dấu trang hiện tại */
+            color: var(--link-hover);
+            font-weight: 700;
+        }
+
+        /* Nút Hamburger */
+        .navbar-toggle {
+            display: none; /* Ẩn trên desktop */
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Menu Mobile */
+        .navbar-mobile-menu {
+            display: none; /* Ẩn trên desktop */
+            background-color: var(--navbar-bg);
+            position: absolute;
+            top: var(--navbar-height);
+            left: 0;
+            width: 100%;
+            padding: 1rem 2rem;
+            box-sizing: border-box;
+            border-top: 1px solid var(--input-border);
+            flex-direction: column;
+            gap: 1.5rem;
+            max-height: calc(100vh - var(--navbar-height)); /* Chiều cao tối đa */
+            overflow-y: auto; /* Thêm scroll nếu nội dung quá dài */
+        }
+
+        .navbar-mobile-menu.active {
+            display: flex; /* Hiện khi có class active */
+        }
+
+        .navbar-links-mobile ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .navbar-links-mobile a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .navbar-links-mobile a i {
+            margin-right: 0.75rem;
+        }
+        .navbar-links-mobile a:hover {
+            color: var(--link-hover);
+        }
+
+        .navbar-buttons-mobile {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .navbar-buttons-mobile .nav-button {
+            width: 100%; /* Nút chiếm hết chiều rộng */
+            justify-content: center;
+        }
+
+        .nav-auth-links-mobile {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+        .nav-auth-links-mobile a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .nav-auth-links-mobile a:hover {
+            color: var(--link-hover);
+        }
+        .nav-auth-links-mobile a.active {
+            color: var(--link-hover);
+            font-weight: 700;
+        }
+        /* ---------------------------------- */
+
+
+        /* Container chính cho form (Đăng nhập/Đăng ký) */
+        .main-container-dashboard {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            box-sizing: border-box;
+            min-height: calc(100vh - var(--navbar-height));
+        }
+
+        .dashboard-welcome {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .dashboard-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .action-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            padding: 1.5rem 1.2rem;
+            min-width: 220px;
+            max-width: 320px;
+            text-align: left;
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            align-items: flex-start;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .action-card:hover {
+            box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+            transform: translateY(-2px) scale(1.03);
+            color: var(--link-hover);
+        }
+        .action-card i {
+            font-size: 2rem;
+            margin-right: 1rem;
+            color: var(--link-color);
+        }
+        .action-card-content h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.15rem;
+            color: var(--heading-color);
+        }
+        .action-card-content p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--text-color);
+            opacity: 0.85;
+        }
+        .form-container {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            color: var(--heading-color);
+            font-weight: 600;
+            font-size: 1.75rem;
+        }
+
+        .form-header-text {
+            font-size: 0.95rem;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+        }
+
+
+        /* ----- CSS cho Input với Icon ----- */
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--input-border);
+            margin-bottom: 1.5rem;
+            transition: border-color 0.2s ease;
+            position: relative;
+        }
+
+        .input-group i {
+            color: #8b949e;
+            margin-right: 0.75rem;
+            font-size: 0.9rem;
+            width: 16px;
+            text-align: center;
+            transition: color 0.2s ease;
+        }
+
+        .input-group label {
+            display: none;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            flex: 1;
+            padding: 0.8rem 0.2rem;
+            border: none;
+            border-radius: 0;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: none;
+
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        /* Thêm khoảng đệm bên phải cho input để chừa chỗ cho icon con mắt */
+        .input-group input {
+            padding-right: 2.5rem;
+        }
+
+
+        .input-group input::placeholder,
+        .input-group select {
+            color: #8b949e;
+        }
+
+        .input-group select:focus,
+        .input-group select.has-value {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            color: #333;
+            background: #fff;
+        }
+
+        .input-group:focus-within {
+            border-bottom-color: var(--link-color);
+        }
+        .input-group:focus-within i {
+            color: var(--link-color);
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-bottom-color: transparent;
+            box-shadow: none;
+        }
+
+        /* CSS cho nút Hiện/Ẩn mật khẩu */
+        .toggle-password-btn {
+            background: none;
+            border: none;
+            color: var(--link-color); /* Dùng biến màu xanh của hệ thống */
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            padding: 0;
+            margin: -0.75rem 0 1.25rem;
+            transition: color 0.2s ease;
+        }
+
+        .toggle-password-btn i {
+            transition: color 0.2s ease;
+        }
+
+        .toggle-password-btn:hover,
+        .toggle-password-btn:focus {
+            color: var(--link-hover); /* Dùng biến màu hover của hệ thống */
+            outline: none;
+        }
+        /* ----------------------------- */
+
+        /* ----- CSS CHO GROUP CHỨA CHECKBOX VÀ LINK QUÊN MK ----- */
+        .login-options {
+            display: flex;
+            justify-content: space-between; /* Đẩy 2 phần tử ra 2 bên */
+            align-items: center;
+            margin-top: -0.75rem; /* Kéo lên gần ô mật khẩu */
+            margin-bottom: 1.5rem; /* Khoảng cách với nút Đăng nhập */
+        }
+
+        /* Sửa lại CSS cho checkbox Ghi nhớ */
+        .input-group-checkbox.remember-me {
+            margin: 0; /* Bỏ margin mặc định của input-group-checkbox */
+        }
+
+        /* Sửa lại CSS cho link Quên mật khẩu */
+        .forgot-password-link {
+            text-align: right; /* Giữ căn phải */
+            margin: 0; /* Bỏ margin */
+        }
+        .forgot-password-link a {
+            color: var(--link-color);
+            font-size: 0.9rem; /* Giữ font-size cũ */
+            text-decoration: none;
+        }
+        .forgot-password-link a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+        /* ------------------------------------------- */
+
+
+        /* ----- CSS CHO PASSWORD STRENGTH & REQUIREMENTS ----- */
+        .password-feedback {
+            margin: -0.75rem 0 1.25rem;
+            display: none;
+        }
+
+        .password-feedback.visible {
+            display: block;
+        }
+
+        .password-strength {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-strength .strength-bar {
+            flex: 1 1 auto;
+            height: 6px; /* slightly larger for visibility */
+            background-color: var(--input-border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .strength-bar-fill {
+            height: 100%;
+            width: 0;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .strength-bar-fill.weak { background-color: var(--color-weak); }
+        .strength-bar-fill.medium { background-color: var(--color-medium); }
+        .strength-bar-fill.strong { background-color: var(--color-strong); }
+        .strength-bar-fill.very-strong { background-color: var(--color-very-strong); }
+
+        .strength-text {
+            display: inline-block;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin: 0;
+            color: #8b949e;
+            transition: color 0.2s ease, transform 0.12s ease;
+        }
+
+        .password-requirements {
+            text-align: center;
+            padding: 0.25rem 0;
+            font-size: 0.9rem;
+        }
+
+        .password-requirements span {
+            font-size: 0.85rem;
+            color: #8b949e;
+            transition: color 0.3s ease;
+        }
+
+        .password-requirements.all-valid span {
+            color: var(--color-strong);
+        }
+        /* ------------------------------------------- */
+
+
+        /* CSS cho Checkbox "Đồng ý điều khoản" (trên trang Đăng ký) */
+        .input-group-checkbox {
+            text-align: left;
+            margin: 1rem 0 1.5rem 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-group-checkbox input[type="checkbox"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 0.75rem;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .input-group-checkbox input[type="checkbox"]:checked {
+            background-color: var(--link-color);
+            border-color: var(--link-color);
+        }
+
+        .input-group-checkbox input[type="checkbox"]:checked::after {
+            content: '\2713';
+            color: white;
+            font-size: 14px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .input-group-checkbox label {
+            display: inline;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .input-group-checkbox label a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+        .input-group-checkbox label a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* CSS Nút Bấm */
+        .button-primary,
+        .form-container form button[type="submit"] {
+            width: 100%;
+            padding: 0.9rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            background: var(--primary-gradient);
+            color: white;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .button-primary:hover,
+        .form-container form button[type="submit"]:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .button-secondary {
+            width: 100%;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            background-color: var(--secondary-button-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-sizing: border-box;
+        }
+
+        .button-secondary:hover {
+            background-color: var(--secondary-button-hover);
+            border-color: var(--link-color);
+            color: var(--link-hover);
+        }
+
+
+        .or-separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #555;
+            margin: 1.5rem 0;
+        }
+
+        .or-separator::before,
+        .or-separator::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--input-border);
+        }
+
+        .or-separator:not(:empty)::before {
+            margin-right: .5rem;
+        }
+
+        .or-separator:not(:empty)::after {
+            margin-left: .5rem;
+        }
+
+        .form-link {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            text-align: center;
+            color: var(--text-color);
+        }
+
+        .form-link a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .form-link a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+
+        /* CSS cho Thông báo Flash */
+        .flash-messages {
+            width: 100%;
+            margin-bottom: 1.5rem;
+            position: fixed;
+            top: calc(var(--navbar-height) + 1rem);
+            right: 1rem;
+            left: auto;
+            transform: none;
+            max-width: 400px;
+            z-index: 1000;
+        }
+
+        .alert {
+            padding: 0.8rem 1.2rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 0.8rem;
+            border: 1px solid transparent;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .alert-success {
+            background-color: #1a4f21;
+            color: #7ee787;
+            border-color: #238636;
+        }
+
+        .alert-danger {
+            background-color: #601e25;
+            color: #f85149;
+            border-color: #da3633;
+        }
+
+        .alert-info {
+            background-color: #1f2e46;
+            color: #89b8ff;
+            border-color: #2f81f7;
+        }
+
+        /* CSS CHO TRANG ĐIỀU KHOẢN */
+        .content-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .content-container h1 {
+            color: var(--heading-color);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+        .content-container .last-updated {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #8b949e;
+            margin-bottom: 2rem;
+        }
+
+        .content-container section {
+            margin-bottom: 1.5rem;
+        }
+
+        .content-container h2 {
+            color: var(--heading-color);
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+            border-bottom: 1px solid var(--input-border);
+            padding-bottom: 0.25rem;
+        }
+
+        .content-container p {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .content-container ul {
+            list-style: disc;
+            margin-left: 1.5rem;
+            padding-left: 0.5rem;
+            color: var(--text-color);
+        }
+        .content-container ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .content-container .back-link {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        .content-container .back-link a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .content-container .back-link a i {
+            margin-right: 0.5rem;
+        }
+        .content-container .back-link a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+        /* ------------------------------------- */
+
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            /* Ẩn các thành phần trên desktop khi màn hình nhỏ */
+            .navbar-links,
+            .navbar-buttons,
+            .nav-auth-links {
+                display: none;
+            }
+            /* Hiện nút Hamburger */
+            .navbar-toggle {
+                display: block;
+                margin-left: auto;
+            }
+            /* Đảm bảo Navbar Links và Buttons ẩn trên mobile */
+            .navbar-mobile-menu:not(.active) {
+                display: none !important;
+            }
+        }
+    </style>
+    
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="navbar-container">
+            <!-- ĐÃ SỬA: Liên kết logo về trang chủ (index.html) -->
+            <a href="../index.html" class="navbar-logo">C1SE.60</a>
+
+            <nav class="navbar-links">
+                <ul>
+                    <li><a href="#"><i class="fa-solid fa-newspaper fa-fw"></i> Tin Tuyển Dụng</a></li>
+                    <li><a href="#"><i class="fa-solid fa-address-card fa-fw"></i> Hồ Sơ Ứng Viên</a></li>
+                    <li><a href="#"><i class="fa-solid fa-lightbulb fa-fw"></i> Tin Tức</a></li>
+                </ul>
+            </nav>
+
+            <div class="navbar-buttons">
+                <!-- ĐÃ SỬA: Liên kết Đăng Tin Tuyển Dụng -->
+                <a href="./login.html" class="nav-button btn-secondary"><i class="fa-solid fa-upload fa-fw"></i> Đăng Tin Tuyển Dụng</a>
+                <!-- ĐÃ SỬA: Liên kết Tạo Hồ Sơ Việc Làm -->
+                <a href="./register.html" class="nav-button btn-primary"><i class="fa-solid fa-plus fa-fw"></i> Tạo Hồ Sơ Việc Làm</a>
+                <div class="nav-auth-links">
+                    <a href="./login.html" class="active">Đăng Nhập</a>
+                    <span>/</span>
+                    <a href="./register.html">Đăng Ký</a>
+                </div>
+            </div>
+
+            <button class="navbar-toggle" id="navbarToggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <div class="navbar-mobile-menu" id="navbarMobileMenu">
+            <nav class="navbar-links-mobile">
+                <ul>
+                    <li><a href="#"><i class="fa-solid fa-newspaper fa-fw"></i> Tin Tuyển Dụng</a></li>
+                    <li><a href="#"><i class="fa-solid fa-address-card fa-fw"></i> Hồ Sơ Ứng Viên</a></li>
+                    <li><a href="#"><i class="fa-solid fa-lightbulb fa-fw"></i> Tin Tức</a></li>
+                </ul>
+            </nav>
+
+            <div class="navbar-buttons-mobile">
+                <a href="./login.html" class="nav-button btn-secondary"><i class="fa-solid fa-upload fa-fw"></i> Đăng Tin Tuyển Dụng</a>
+                <a href="./register.html" class="nav-button btn-primary"><i class="fa-solid fa-plus fa-fw"></i> Tạo Hồ Sơ Việc Làm</a>
+            </div>
+
+            <div class="nav-auth-links-mobile">
+                <a href="./login.html" class="active">Đăng Nhập</a>
+                <span>/</span>
+                <a href="./register.html">Đăng Ký</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="form-container">
+            <h2>Đăng nhập</h2>
+            <p class="form-header-text">Đăng nhập bằng tài khoản của bạn</p>
+
+            <form id="login-form">
+                <div class="input-group">
+                    <i class="fa-solid fa-user fa-fw"></i>
+                    <label for="credential">Tên đăng nhập / Email (*)</label>
+                    <input type="text" id="credential" name="credential" placeholder="Nhập tên đăng nhập hoặc email" required />
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-lock fa-fw"></i>
+                    <label for="password">Mật khẩu (*)</label>
+                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required />
+                    <i class="fa-solid fa-eye-slash toggle-password"></i>
+                </div>
+
+                <div class="login-options">
+                    <div class="input-group-checkbox remember-me">
+                        <input type="checkbox" id="remember_me" name="remember_me" value="true" />
+                        <label for="remember_me">Ghi nhớ mật khẩu</label>
+                    </div>
+                    <div class="forgot-password-link">
+                        <!-- ĐÃ SỬA: Liên kết Quên mật khẩu -->
+                        <a href="./forgot_password.html">Quên mật khẩu?</a>
+                    </div>
+                </div>
+
+                <button type="submit">Đăng nhập</button>
+                <p id="error-message" class="alert alert-danger" style="display: none; margin-top: 1rem;"></p>
+            </form>
+
+            <div class="form-link">
+                <!-- ĐÃ SỬA: Liên kết Đăng ký -->
+                <p>Chưa có tài khoản? <a href="./register.html">Đăng ký ngay</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Hiện / Ẩn mật khẩu
+            document.querySelectorAll(".toggle-password").forEach(icon => {
+                icon.addEventListener("click", function () {
+                    const input = this.closest(".input-group").querySelector("input");
+                    if (input) {
+                        const type = input.getAttribute("type") === "password" ? "text" : "password";
+                        input.setAttribute("type", type);
+                        this.classList.toggle("fa-eye");
+                        this.classList.toggle("fa-eye-slash");
+                    }
+                });
+            });
+
+            // Toggle menu mobile
+            const navbarToggle = document.getElementById("navbarToggle");
+            const navbarMobileMenu = document.getElementById("navbarMobileMenu");
+            if (navbarToggle && navbarMobileMenu) {
+                navbarToggle.addEventListener("click", function () {
+                    navbarMobileMenu.classList.toggle("active");
+                    const icon = navbarToggle.querySelector("i");
+                    if (icon) {
+                        icon.classList.toggle("fa-bars");
+                        icon.classList.toggle("fa-times");
+                    }
+                });
+            }
+
+            // Gửi form đăng nhập
+            const loginForm = document.getElementById("login-form");
+            const errorMessage = document.getElementById("error-message");
+            const submitButton = loginForm ? loginForm.querySelector('button[type="submit"]') : null;
+
+            if (loginForm) {
+                loginForm.addEventListener("submit", async function (event) {
+                    event.preventDefault();
+                    errorMessage.style.display = "none";
+
+                    const formData = new FormData(loginForm);
+                    const data = Object.fromEntries(formData.entries());
+
+                    if (submitButton) {
+                        submitButton.disabled = true;
+                        submitButton.textContent = "Đang đăng nhập...";
+                    }
+
+                    try {
+                        const response = await fetch("http://localhost:5000/api/auth/login", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(data),
+                        });
+
+                        const result = await response.json();
+
+                        if (response.ok && result.success) {
+                            if (result.token) {
+                                localStorage.setItem("authToken", result.token);
+                            }
+
+                            const role = (result.role || "").toLowerCase();
+                            // ĐÃ SỬA: Chuyển hướng sau khi đăng nhập thành công
+                            if (role === "recruiter") {
+                                window.location.href = "./recruiter_home.html";
+                            } else if (role === "applicant") {
+                                window.location.href = "./applicant_home.html";
+                            } else {
+                                window.location.href = "../index.html"; // Trở về trang gốc
+                            }
+                        } else {
+                            errorMessage.textContent = result.message || "Đăng nhập thất bại. Vui lòng thử lại.";
+                            errorMessage.style.display = "block";
+                        }
+                    } catch (error) {
+                        errorMessage.textContent = "Không thể kết nối tới API (cổng 5000). Vui lòng kiểm tra lại server.";
+                        errorMessage.style.display = "block";
+                    } finally {
+                        if (submitButton) {
+                            submitButton.disabled = false;
+                            submitButton.textContent = "Đăng nhập";
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+```
+

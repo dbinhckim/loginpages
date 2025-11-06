@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: cs60_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: cs60_recruitment
+      MYSQL_USER: cs60user
+      MYSQL_PASSWORD: cs60password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - cs60network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: cs60_phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: cs60_mysql        # ✅ trỏ đúng tên container MySQL
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - cs60network
+
+  backend:
+    build:
+      context: ./backend          # ✅ chỉ đường dẫn tới thư mục backend
+      dockerfile: Dockerfile
+    container_name: cs60_backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: development
+      DB_HOST: cs60_mysql         # ✅ trỏ đúng container mysql
+      DB_USER: cs60user
+      DB_PASSWORD: cs60password
+      DB_DATABASE: cs60_recruitment
+      DB_PORT: 3306
+    depends_on:
+      - mysql
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - cs60network
+
+networks:
+  cs60network:
+    driver: bridge

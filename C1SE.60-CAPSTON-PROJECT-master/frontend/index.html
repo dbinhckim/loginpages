@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C1SE.60 | Tuyển Dụng & Việc Làm</title>
+    
+    <!-- Link CSS tương đối: Truy cập vào thư mục con css/ -->
+    <link rel="stylesheet" href="./css/style.css"> 
+    
+    <!-- Link thư viện Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Thêm CSS đơn giản để căn giữa trang Landing Page -->
+    <style>
+        .landing-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: calc(100vh - 70px); /* Trừ đi chiều cao navbar */
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .landing-container h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: var(--heading-color);
+        }
+        .landing-container p {
+            font-size: 1.25rem;
+            color: var(--text-color);
+            margin-bottom: 2.5rem;
+        }
+        .landing-actions {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Thanh Menu Ngang (Dùng cấu trúc tương tự các trang khác, nhưng không cần link menu phức tạp) -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <!-- Logo -->
+            <!-- Đường dẫn logo vẫn là /index.html (hoặc ./index.html) -->
+            <a href="./index.html" class="navbar-logo">C1SE.60</a>
+            
+            <div class="navbar-buttons">
+                <!-- Liên kết Đăng nhập/Đăng ký, trỏ đến các file trong thư mục pages/ -->
+                <div class="nav-auth-links">
+                    <a href="./pages/login.html">Đăng Nhập</a>
+                    <span>/</span>
+                    <a href="./pages/register.html">Đăng Ký</a>
+                </div>
+            </div>
+            <!-- Nút Hamburger cho mobile (Ẩn các mục không cần thiết trên Desktop) -->
+            <button class="navbar-toggle" id="navbarToggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <!-- Menu mobile (Đơn giản hóa cho trang chủ) -->
+        <div class="navbar-mobile-menu" id="navbarMobileMenu">
+            <div class="nav-auth-links-mobile">
+                <a href="./pages/login.html">Đăng Nhập</a>
+                <span>/</span>
+                <a href="./pages/register.html">Đăng Ký</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Nội dung chính Landing Page -->
+    <div class="landing-container"> 
+        <h1>Tìm kiếm việc làm, Tuyển dụng nhân tài.</h1>
+        <p>Nền tảng kết nối ứng viên và nhà tuyển dụng hiệu quả nhất.</p>
+
+        <div class="landing-actions">
+            <!-- Liên kết tới trang Đăng ký Ứng viên -->
+            <a href="./pages/register.html" class="nav-button btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                <i class="fa-solid fa-plus fa-fw"></i> Tôi là Ứng viên (Tìm Việc)
+            </a>
+
+            <!-- Liên kết tới trang Đăng ký Nhà tuyển dụng -->
+            <a href="./pages/register.html" class="nav-button btn-secondary" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                <i class="fa-solid fa-upload fa-fw"></i> Tôi là Nhà Tuyển Dụng
+            </a>
+            
+            <a href="./pages/login.html" class="nav-button btn-secondary" style="background-color: transparent; border: 1px solid var(--input-border); color: var(--text-color);">
+                <i class="fa-solid fa-sign-in-alt fa-fw"></i> Quay lại Đăng nhập
+            </a>
+        </div>
+    </div>
+    
+    <!-- Script cho menu mobile (sao chép từ code của bạn) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- Xử lý menu mobile ---
+            const navbarToggle = document.getElementById('navbarToggle');
+            const navbarMobileMenu = document.getElementById('navbarMobileMenu');
+
+            if (navbarToggle && navbarMobileMenu) {
+                navbarToggle.addEventListener('click', function() {
+                    navbarMobileMenu.classList.toggle('active');
+                    // Thay đổi icon hamburger thành X và ngược lại
+                    const icon = navbarToggle.querySelector('i');
+                    if (icon) {
+                        icon.classList.toggle('fa-bars');
+                        icon.classList.toggle('fa-times');
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

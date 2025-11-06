@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký</title>
+    
+    <link rel="stylesheet" href="../css/style.css"> 
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="navbar-logo">C1SE.60</a>
+            <nav class="navbar-links">
+                <ul>
+                    <li><a href="#"><i class="fa-solid fa-newspaper fa-fw"></i> Tin Tuyển Dụng</a></li>
+                    <li><a href="#"><i class="fa-solid fa-address-card fa-fw"></i> Hồ Sơ Ứng Viên</a></li>
+                    <li><a href="#"><i class="fa-solid fa-lightbulb fa-fw"></i> Tin Tức</a></li>
+                </ul>
+            </nav>
+            <div class="navbar-buttons">
+                <a href="./login.html" class="nav-button btn-secondary"><i class="fa-solid fa-upload fa-fw"></i> Đăng Tin Tuyển Dụng</a>
+                <a href="./register.html" class="nav-button btn-primary"><i class="fa-solid fa-plus fa-fw"></i> Tạo Hồ Sơ Việc Làm</a>
+                <div class="nav-auth-links">
+                    <a href="./login.html">Đăng Nhập</a>
+                    <span>/</span>
+                    <a href="./register.html" class="active">Đăng Ký</a>
+                </div>
+            </div>
+            <button class="navbar-toggle" id="navbarToggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <div class="navbar-mobile-menu" id="navbarMobileMenu">
+            <nav class="navbar-links-mobile">
+                <ul>
+                    <li><a href="#"><i class="fa-solid fa-newspaper fa-fw"></i> Tin Tuyển Dụng</a></li>
+                    <li><a href="#"><i class="fa-solid fa-address-card fa-fw"></i> Hồ Sơ Ứng Viên</a></li>
+                    <li><a href="#"><i class="fa-solid fa-lightbulb fa-fw"></i> Tin Tức</a></li>
+                </ul>
+            </nav>
+            <div class="navbar-buttons-mobile">
+                <a href="./login.html" class="nav-button btn-secondary"><i class="fa-solid fa-upload fa-fw"></i> Đăng Tin Tuyển Dụng</a>
+                <a href="./register.html" class="nav-button btn-primary"><i class="fa-solid fa-plus fa-fw"></i> Tạo Hồ Sơ Việc Làm</a>
+            </div>
+            <div class="nav-auth-links-mobile">
+                <a href="./login.html">Đăng Nhập</a>
+                <span>/</span>
+                <a href="./register.html" class="active">Đăng Ký</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="form-container">
+            <h2>Đăng ký</h2>
+            <p class="form-header-text">Tạo tài khoản mới để ứng tuyển hoặc đăng tin tuyển dụng</p>
+
+            <form id="register-form">
+
+                <div class="input-group">
+                    <i class="fa-solid fa-briefcase fa-fw"></i>
+                    <label for="role">Loại tài khoản</label>
+                    <select id="role" name="role" required>
+                        <option value="" disabled selected hidden>-- Người tìm việc hay Nhà tuyển dụng? --</option>
+                        <option value="applicant">Người ứng tuyển (Tìm việc)</option>
+                        <option value="recruiter">Người tuyển dụng</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-user fa-fw"></i>
+                    <label for="fullName">Họ và tên (*)</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Họ và tên (*)" required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-at fa-fw"></i>
+                    <label for="username">Tên đăng nhập (*)</label>
+                    <input type="text" id="username" name="username" placeholder="Tên đăng nhập (*)" required>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope fa-fw"></i>
+                    <label for="email">Email (*)</label>
+                    <input type="email" id="email" name="email" placeholder="Email (*)" required>
+                </div>                
+                
+                <div class="input-group">
+                    <i class="fa-solid fa-lock fa-fw"></i>
+                    <label for="password">Mật khẩu (*)</label>
+                    <input type="password" id="password" name="password" placeholder="Mật khẩu (*)" required>
+                    <i class="fa-solid fa-eye-slash toggle-password"></i>
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-lock fa-fw"></i>
+                    <label for="confirm_password">Xác nhận mật khẩu (*)</label>
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Xác nhận mật khẩu (*)" required>
+                    <i class="fa-solid fa-eye-slash toggle-password"></i>
+                </div>
+                
+                <div class="input-group-checkbox">
+                    <input type="checkbox" id="agree_terms" name="agree_terms" value="agree">
+                    <label for="agree_terms">Tôi đồng ý với các <a href="./terms.html">điều khoản sử dụng</a>.</label>
+                </div>
+
+                <button type="submit">Đăng ký</button>
+                <p id="success-message" class="alert alert-success" style="display: none; margin-top: 1rem;"></p>
+                <p id="error-message" class="alert alert-danger" style="display: none; margin-top: 1rem;"></p>
+            </form>
+
+            <div class="form-link">
+                <p>Bạn đã có tài khoản? <a href="./login.html">Đăng nhập ngay</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // Helper function to display messages
+            const displayMessage = (el, message, isSuccess) => {
+                const successEl = document.getElementById('success-message');
+                const errorEl = document.getElementById('error-message');
+                
+                successEl.style.display = 'none';
+                errorEl.style.display = 'none';
+
+                if (isSuccess) {
+                    successEl.textContent = message;
+                    successEl.style.display = 'block';
+                } else {
+                    errorEl.textContent = message;
+                    errorEl.style.display = 'block';
+                }
+            };
+
+            // Hiện/Ẩn Mật khẩu
+            document.querySelectorAll(".toggle-password").forEach(icon => {
+                icon.addEventListener("click", function () {
+                    const input = this.closest(".input-group").querySelector("input");
+                    if (input) {
+                        const type = input.getAttribute("type") === "password" ? "text" : "password";
+                        input.setAttribute("type", type);
+                        this.classList.toggle("fa-eye");
+                        this.classList.toggle("fa-eye-slash");
+                    }
+                });
+            });
+
+            // Xử lý Placeholder cho Select
+            document.querySelectorAll('select').forEach(select => {
+                function updateColor() {
+                    if (select.value) {
+                        select.classList.add('has-value');
+                    } else {
+                        select.classList.remove('has-value');
+                    }
+                }
+                select.addEventListener('change', updateColor);
+                updateColor();
+            });
+
+            // Xử lý độ mạnh mật khẩu (Giữ nguyên logic của bạn)
+            const passwordInput = document.getElementById('password');
+            const strengthFill = document.getElementById('strength-fill'); // Không tồn tại trong HTML, giữ để không gây lỗi
+            const strengthText = document.getElementById('strength-text'); // Không tồn tại trong HTML, giữ để không gây lỗi
+
+            if (passwordInput) {
+                passwordInput.addEventListener('input', function () {
+                    const pwd = this.value || '';
+                    let score = 0;
+                    if (pwd.length >= 8) score += 1;
+                    if (/[A-Z]/.test(pwd)) score += 1;
+                    if (/[0-9]/.test(pwd)) score += 1;
+                    if (/[!@#$%^&*]/.test(pwd)) score += 1;
+
+                    const percent = (score / 4) * 100;
+                    if (strengthFill) strengthFill.style.width = percent + '%';
+
+                    if (strengthText) {
+                        if (percent <= 25) strengthText.textContent = 'Yếu';
+                        else if (percent <= 50) strengthText.textContent = 'Trung bình';
+                        else if (percent <= 75) strengthText.textContent = 'Mạnh';
+                        else strengthText.textContent = 'Rất mạnh';
+                    }
+                });
+            }
+            
+            // Xử lý menu mobile
+            const navbarToggle = document.getElementById('navbarToggle');
+            const navbarMobileMenu = document.getElementById('navbarMobileMenu');
+            if (navbarToggle && navbarMobileMenu) {
+                navbarToggle.addEventListener("click", function () {
+                    navbarMobileMenu.classList.toggle("active");
+                    const icon = navbarToggle.querySelector("i");
+                    if (icon) {
+                        icon.classList.toggle("fa-bars");
+                        icon.classList.toggle("fa-times");
+                    }
+                });
+            }
+
+
+            // Xử lý Submit Form Đăng Ký
+            const registerForm = document.getElementById('register-form');
+            const successMessage = document.getElementById('success-message');
+            const errorMessage = document.getElementById('error-message');
+            const submitButton = registerForm ? registerForm.querySelector('button[type="submit"]') : null;
+
+            if (registerForm) {
+                registerForm.addEventListener('submit', async function(event) {
+                    event.preventDefault();
+                    
+                    const formData = new FormData(registerForm);
+                    const data = Object.fromEntries(formData);
+                    
+                    if (data.password !== data.confirm_password) {
+                        displayMessage(errorMessage, 'Mật khẩu xác nhận không khớp.', false);
+                        return;
+                    }
+                    
+                    if (!data.agree_terms) {
+                        displayMessage(errorMessage, 'Bạn phải đồng ý với các điều khoản sử dụng.', false);
+                        return;
+                    }
+
+                    delete data.confirm_password;
+                    delete data.agree_terms;
+
+                    if (submitButton) {
+                        submitButton.disabled = true;
+                        submitButton.textContent = 'Đang xử lý...';
+                    }
+                    
+                    const apiEndpoint = 'http://localhost:5000/api/auth/register'; 
+
+                    try {
+                        const response = await fetch(apiEndpoint, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data)
+                        });
+
+                        const result = await response.json();
+
+                        if (response.ok) {
+                            displayMessage(successMessage, 'Đăng ký thành công! Chuyển hướng đến trang đăng nhập...', true);
+                            
+                            setTimeout(() => {
+                                // FIX 6: Chuyển hướng đến login.html bằng đường dẫn tương đối (từ /pages/ đến /pages/login.html)
+                                window.location.href = './login.html'; 
+                            }, 2000);
+                        } else {
+                            const msg = result.message || 'Lỗi không xác định khi đăng ký.';
+                            displayMessage(errorMessage, `Lỗi đăng ký: ${msg}`, false);
+                        }
+                    } catch (error) {
+                        console.error('Network Error:', error);
+                        displayMessage(errorMessage, 'Lỗi kết nối server API. Vui lòng thử lại.', false);
+                    } finally {
+                        if (submitButton) {
+                            submitButton.disabled = false;
+                            submitButton.textContent = 'Đăng ký';
+                        }
+                    }
+                });
+            } else {
+                console.error("Register form elements not found.");
+            }
+        });
+    </script>
+
+</body>
+</html>

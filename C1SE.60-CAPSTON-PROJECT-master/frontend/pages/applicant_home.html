@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Ứng Viên</title>
+    
+    <link rel="stylesheet" href="../css/style.css"> 
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-container">
+            <a href="./applicant_home.html" class="navbar-logo">C1SE.60</a>
+            
+            <nav class="navbar-links">
+                <ul>
+                    <li><a href="./applicant_jobs.html"><i class="fa-solid fa-briefcase fa-fw"></i> Việc làm phù hợp</a></li>
+                    <li><a href="./applicant_profile.html"><i class="fa-solid fa-user fa-fw"></i> Hồ sơ của tôi</a></li>
+                    <li><a href="./applicant_applications.html"><i class="fa-solid fa-file-alt fa-fw"></i> Đơn đã nộp</a></li>
+                </ul>
+            </nav>
+            <div class="navbar-buttons">
+                <a href="./login.html" id="logout-button-desktop" class="nav-button btn-secondary"><i class="fa-solid fa-sign-out fa-fw"></i> Đăng xuất</a>
+            </div>
+            
+            <button class="navbar-toggle" id="navbarToggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <div class="navbar-mobile-menu" id="navbarMobileMenu">
+            <nav class="navbar-links-mobile">
+                <ul>
+                    <li><a href="./applicant_jobs.html"><i class="fa-solid fa-briefcase fa-fw"></i> Việc làm phù hợp</a></li>
+                    <li><a href="./applicant_profile.html"><i class="fa-solid fa-user fa-fw"></i> Hồ sơ của tôi</a></li>
+                    <li><a href="./applicant_applications.html"><i class="fa-solid fa-file-alt fa-fw"></i> Đơn đã nộp</a></li>
+                </ul>
+            </nav>
+            <div class="navbar-buttons-mobile">
+                <a href="./login.html" id="logout-button-mobile" class="nav-button btn-secondary"><i class="fa-solid fa-sign-out fa-fw"></i> Đăng xuất</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container-dashboard">
+        <div class="dashboard-welcome">
+            <h2>Chào mừng, Ứng Viên!</h2>
+            <p>Quản lý hành trình tìm việc của bạn một cách hiệu quả tại đây.</p>
+        </div>
+
+        <div class="dashboard-actions">
+            <a href="./applicant_jobs.html" class="action-card">
+                <i class="fa-solid fa-briefcase fa-fw"></i>
+                <div class="action-card-content">
+                    <h3>Tìm việc làm phù hợp</h3>
+                    <p>Duyệt và ứng tuyển các công việc mới nhất.</p>
+                </div>
+            </a>
+
+            <a href="./applicant_profile.html" class="action-card">
+                <i class="fa-solid fa-user fa-fw"></i>
+                <div class="action-card-content">
+                    <h3>Hồ sơ của tôi</h3>
+                    <p>Cập nhật thông tin cá nhân và CV của bạn.</p>
+                </div>
+            </a>
+
+            <a href="./applicant_applications.html" class="action-card">
+                <i class="fa-solid fa-file-alt fa-fw"></i>
+                <div class="action-card-content">
+                    <h3>Đơn đã nộp</h3>
+                    <p>Theo dõi trạng thái của các đơn ứng tuyển.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        
+        // --- 1. XỬ LÝ LOGOUT ---
+        const logoutButtons = [
+            document.getElementById("logout-button-desktop"),
+            document.getElementById("logout-button-mobile")
+        ];
+
+        logoutButtons.forEach(button => {
+            if (button) {
+                button.addEventListener("click", function (event) {
+                    event.preventDefault(); 
+                    localStorage.removeItem("authToken");
+                    // FIX 8: Chuyển hướng về login.html
+                    window.location.href = "./login.html"; 
+                });
+            }
+        });
+
+        // --- 2. XỬ LÝ MENU MOBILE ---
+        const navbarToggle = document.getElementById("navbarToggle");
+        const navbarMobileMenu = document.getElementById("navbarMobileMenu");
+        
+        if (navbarToggle && navbarMobileMenu) {
+            navbarToggle.addEventListener("click", function () {
+                navbarMobileMenu.classList.toggle("active");
+                const icon = navbarToggle.querySelector("i");
+                if (icon) {
+                    icon.classList.toggle("fa-bars");
+                    icon.classList.toggle("fa-times");
+                }
+            });
+        }
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+version: '3.9'
+
+services:
+  # =========================
+  # 🧠 Backend (Node.js / Express)
+  # =========================
+  backend:
+    build: ./backend
+    container_name: cs60_backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    environment:
+      NODE_ENV: development
+      DB_HOST: database
+      DB_USER: cs60user
+      DB_PASSWORD: cs60password
+      DB_NAME: cs60_recruitment
+      JWT_SECRET: your_jwt_secret_here
+    depends_on:
+      - database
+    networks:
+      - cs60_network
+
+  # =========================
+  # 🎨 Frontend (HTML / CSS / JS tĩnh)
+  # =========================
+  frontend:
+    image: nginx:latest
+    container_name: cs60_frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+    depends_on:
+      - backend
+    networks:
+      - cs60_network
+
+  # =========================
+  # 🗄️ Database (MySQL)
+  # =========================
+  database:
+    image: mysql:8.0
+    container_name: cs60_mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: cs60_recruitment
+      MYSQL_USER: cs60user
+      MYSQL_PASSWORD: cs60password
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./database/mysql_data:/var/lib/mysql
+      - ./database/init:/docker-entrypoint-initdb.d
+    networks:
+      - cs60_network
+
+  # =========================
+  # 🧰 phpMyAdmin
+  # =========================
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: cs60_phpmyadmin
+    environment:
+      PMA_HOST: database
+      PMA_USER: root
+      PMA_PASSWORD: rootpassword
+    ports:
+      - "8080:80"   # Mở phpMyAdmin tại http://localhost:8080
+    depends_on:
+      - database
+    networks:
+      - cs60_network
+
+# =========================
+# 🌐 Docker Network
+# =========================
+networks:
+  cs60_network:
+    driver: bridge
